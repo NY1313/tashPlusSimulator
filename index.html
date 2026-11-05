@@ -9,7 +9,7 @@
 <meta property="og:locale" content="he_IL">
 <meta property="og:title" content="מחשבון הזכויות - קהילת זכויות נשואים בצה"ל">
 <meta property="og:description" content="הסימולטור החדשני לבדיקת הזכאויות וההטבות הצפויות לכם בשירות חובה נשוי, מבית קהילת זכויות נשואים בצה״ל.">
-<meta property="og:image" content="https://ny1313.github.io/NY1313/og-image.png">
+<meta property="og:image" content="https://YOUR-DOMAIN/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -155,9 +155,9 @@ var C = {
   KEEP: 0.7,
   F_EMPLOYED: 0.8, F_PREG: 0.8, F_ST30: 0.75, F_ST16: 0.5, F_DUAL: 0.75,
   BANK_LIMIT: 42000, BANK_RATE: 0.08, // הכנסה רעיונית חודשית = (יתרה − 42,000) × 0.08 ÷ 12
-  RENT_FULL: 1150, RENT_HALF: 575,
+  RENT_FULL: 1179.58, RENT_HALF: 589.79, HOUSING_UPKEEP_RENT: 279, HOUSING_UPKEEP_OWNER: 362.8, LONE_FIGHTER: 2987, LONE_A: 2740, LONE_OTHER: 2492,
   HOUSING_UPKEEP: 194, KINDER: 580,
-  TIERS: [[6861,6861],[8000,4528],[10000,3430.5],[12888,2264]], // מסלול הורים, לפי הכנסה ברוטו: [עד, תשמ״ש]; מעל 12,888: נשלל (טבלה בתוקף מ-1.4.2026)
+  TIERS: [[6861,6861],[8000,4528],[10000,3430.5],[12888,2264]], // מסלול הורים, לפי הכנסה ברוטו: [עד, תשמ״ש]; מעל 12,888: מינימום 500 (טבלה בתוקף מ-1.4.2026)
   WHATSAPP_GROUP_URL: "https://chat.whatsapp.com/KBJTzYJbeyq5wnwMslMkfy",
   SHARE_URL: location.href.split("#")[0].split("?")[0]
 };
@@ -169,17 +169,17 @@ var Q=[
  {id:'family',eyebrow:'סטטוס משפחתי',title:'מהו הסטטוס המשפחתי שלך?',opts:[{v:'kids',l:'נשוי + ילדים (או היריון משבוע 32 ואילך)'},{v:'preg',l:'נשוי, אשתי בהיריון בשבוע 14 עד 31'},{v:'nokids',l:'נשוי ללא ילדים'}]},
  {id:'empA',eyebrow:'בת הזוג',title:'מהו סטטוס התעסוקה של בת הזוג?',when:function(a){return a.family==='kids'},opts:[{v:'employed',l:'שכירה / עצמאית'},{v:'none',l:'לא עובדת או חיילת בשירות חובה'}]},
  {id:'empB',eyebrow:'בת הזוג',title:'מהו סטטוס התעסוקה או הלימודים של בת הזוג?',when:function(a){return a.family==='nokids'},opts:[
-   {v:'student',l:'סטודנטית'},{v:'employed',l:'שכירה / עצמאית'},{v:'notwork',l:'לא עובדת'},{v:'conscript',l:'חיילת בשירות חובה'},{v:'lone',l:'חייל בודד שהתחתן במהלך שירות החובה'}]},
+   {v:'student',l:'סטודנטית'},{v:'employed',l:'שכירה / עצמאית'},{v:'notwork',l:'לא עובדת'},{v:'conscript',l:'חיילת בשירות חובה (שירות לאומי)'},{v:'lone',l:'חייל בודד שהתחתן במהלך שירות החובה'}]},
  {id:'wedding',eyebrow:'מועד החתונה',title:'מתי נערכה החתונה שלכם ביחס ללימודים של בת הזוג?',when:function(a){return isSt(a)},opts:[{v:'before',l:'לפני או במהלך שנה א׳ בתואר הראשון'},{v:'after',l:'לאחר סיום שנה א׳ בתואר הראשון'}]},
  {id:'hours',eyebrow:'לימודים',title:'כמה שעות שבועיות לומדת בת הזוג?',when:function(a){return isSt(a)&&a.wedding==='after'},opts:[{v:'h30',l:'מעל 30 ש״ש'},{v:'h16',l:'בין 16 ל-29 ש״ש'},{v:'low',l:'מתחת ל-16 ש״ש'}]},
- {id:'capacity',eyebrow:'כושר השתכרות',title:'האם בת הזוג ממצה כושר השתכרות?',hint:'עבודה בהיקף משרה מלאה, או שכר שאינו נמוך משכר המינימום (כ-6,000 ₪).',when:function(a){return a.family==='nokids'&&a.empB==='employed'},opts:yn},
+ {id:'capacity',eyebrow:'כושר השתכרות',title:'האם בת הזוג ממצה כושר השתכרות?',hint:'עבודה בהיקף משרה מלאה, או שכר שאינו נמוך משכר המינימום (כ-6,445 ₪).',when:function(a){return a.family==='nokids'&&a.empB==='employed'},opts:yn},
  {id:'spouseRampf',eyebrow:'זוג חיילי חובה',title:'מהי רמת הפעילות (רמ״פ) של היחידה בה משרתת בת הזוג?',when:function(a){return isDual(a)},opts:rampfOpts()},
- {id:'income',type:'num',eyebrow:'הכנסות',title:function(a){return a.family==='kids'?'מהן הכנסות האישה ברוטו לחישוב?':'מהן הכנסות האישה נטו לחישוב?'},hint:function(a){return a.family==='kids'?'סכום חודשי ברוטו בשקלים. המדרגות במסלול זה מתייחסות לסכומי ברוטו בלבד.':a.family==='nokids'&&a.empB==='lone'?'סכום חודשי נטו. אם אין הכנסה, הזינו 0.':(isSt(a)||a.family==='preg')?'הכנסה חודשית נטו מעבודה, אם קיימת. אם אין, הזינו 0.':'סכום חודשי נטו, אחרי ניכוי מס הכנסה, ביטוח לאומי ומס בריאות.'},when:function(a){return needIncome(a)}},
+ {id:'income',type:'num',eyebrow:'הכנסות',title:function(a){return a.family==='kids'?'מהן הכנסות האישה ברוטו לחישוב?':'מהן הכנסות האישה נטו לחישוב?'},hint:function(a){return a.family==='kids'?'סכום חודשי ברוטו בשקלים. יש לנכות הבראה, ביגוד ומשכורת 13 בלבד. בונוסים ושעות נוספות נשארים בחישוב.':a.family==='nokids'&&a.empB==='lone'?'סכום חודשי נטו. אם אין הכנסה, הזינו 0.':(isSt(a)||a.family==='preg')?'הכנסה חודשית נטו מעבודה, אם קיימת. אם אין, הזינו 0.':'סכום חודשי נטו, אחרי ניכוי מס הכנסה, ביטוח לאומי ומס בריאות. יש לנכות הבראה, ביגוד ומשכורת 13. בונוסים ושעות נוספות נשארים בחישוב.'},when:function(a){return needIncome(a)}},
  {id:'allow',eyebrow:'קצבאות',title:'האם בת הזוג מקבלת אחת מהקצבאות המחושבות?',hint:'קצבאות כמו קצבת ילדים, ניידות, אומנה, סיוע, ילד נכה או ילד נטוש אינן נכללות בחישוב, ואין צורך לסמן אותן.',when:function(a){return eligible(a)},opts:yn},
  {id:'allowType',eyebrow:'קצבאות',title:'איזו קצבה בת הזוג מקבלת?',when:function(a){return eligible(a)&&a.allow==='yes'},opts:Object.keys(ALLOW).map(function(k){return {v:k,l:ALLOW[k]}})},
  {id:'allowAmt',type:'num',eyebrow:'קצבאות',title:'מהו סכום הקצבה החודשי?',when:function(a){return eligible(a)&&a.allow==='yes'&&a.allowType}},
- {id:'bank',eyebrow:'עו״ש וחסכונות',title:'האם ביתרת חשבון העו״ש והחסכונות שלכם קיים סכום הגבוה מ-42,000 ₪?',when:function(a){return eligible(a)},opts:yn},
- {id:'bankAmt',type:'num',eyebrow:'עו״ש וחסכונות',title:'מהו סך כל הכספים בעו״ש ובחסכונות?',hint:'משמש לחישוב הכנסה רעיונית.',when:function(a){return eligible(a)&&a.bank==='yes'}},
+ {id:'bank',eyebrow:'עו״ש וחסכונות',title:'האם ביתרת חשבון העו״ש והחסכונות שלכם קיים סכום הגבוה מ-42,000 ₪?',when:function(a){return eligible(a)||isDual(a)},opts:yn},
+ {id:'bankAmt',type:'num',eyebrow:'עו״ש וחסכונות',title:'מהו סך כל הכספים בעו״ש ובחסכונות?',hint:'משמש לחישוב הכנסה רעיונית.',when:function(a){return (eligible(a)||isDual(a))&&a.bank==='yes'}},
  {id:'car',eyebrow:'רכב',title:'האם יש ברשותכם רכב שערכו מעל 46,138 ₪ או שני רכבים ומעלה?',when:function(a){return eligible(a)},opts:yn},
  {id:'rent',eyebrow:'מגורים',title:'האם אתם מתגוררים בדירה שכורה ויש ברשותכם חוזה שכירות בתוקף?',opts:yn},
  {id:'rampf',eyebrow:'שירות',title:'מהי רמת הפעילות (רמ״פ) של היחידה בה אתה משרת?',opts:rampfOpts()},
@@ -215,22 +215,24 @@ function calc(a){
   r.work=work;r.nonwork=nonwork;
   var tash;
   if(kids){
-    var tot=work+nonwork;tash=0;
+    var tot=work+nonwork;tash=C.MIN;
     for(var i=0;i<C.TIERS.length;i++){if(tot<=C.TIERS[i][0]){tash=C.TIERS[i][1];break}}
-    r.tash=tash;r.denied=tash===0;r.car=a.car==='yes';return r;
+    r.tash=tash;r.denied=false;r.car=a.car==='yes';return r;
   }else{
-    var relief=a.allowType==='disability'?0:C.POINT;
+    var relief=C.POINT;
     var ded=work>t2?C.KEEP*(work-t2)+nonwork:Math.max(0,nonwork-relief);
     if(isSt(a)){
       var base=r.cap, free=(a.hours==='h30'?0.25:0.5)*C.CAP;
       tash=base-Math.max(0,ded-free);
     }else tash=r.cap-ded;
   }
-  r.tash=Math.max(C.MIN,Math.round(tash));
+  tash=Math.max(C.MIN,Math.round(tash));
+  if(lone){var grant=a.rampf==='a'?C.LONE_A:C.LONE_OTHER; r.loneGrant=grant; if(grant>tash)tash=grant}
+  r.tash=tash;
   r.car=a.car==='yes';
   return r;
 }
-function nf(n){return Math.abs(n%1-0.5)<1e-9?n.toLocaleString('he-IL',{maximumFractionDigits:1}):Math.round(n).toLocaleString('he-IL')}
+function nf(n){return n%1!==0?n.toLocaleString('he-IL',{minimumFractionDigits:2,maximumFractionDigits:2}):Math.round(n).toLocaleString('he-IL')}
 
 /* ---------- תצוגה ---------- */
 var a={}, hist=[], cur=null, screen='home';
@@ -242,22 +244,23 @@ function nextId(from){
 function setView(html){view.style.animation='none';view.offsetHeight;view.style.animation='';view.innerHTML=html;window.scrollTo(0,0)}
 function progress(){
   if(screen==='home'){prog.style.width='0';return}
-  if(screen==='docs'){prog.style.width='0';return}
+  if(screen==='docs'||screen==='groups'){prog.style.width='0';return}
   if(screen!=='q'){prog.style.width='100%';return}
   var done=hist.length,left=0,idx=Q.findIndex(function(q){return q.id===cur});
   for(var i=idx;i<Q.length;i++)if(vis(Q[i],a))left++;
   prog.style.width=Math.round(done/(done+left)*100)+'%'}
 function render(){
   backBtn.hidden=screen==='home';document.getElementById('brand').hidden=screen==='home';
-  if(screen==='home')home();else if(screen==='q')question();else if(screen==='res')results();else docs();
+  if(screen==='home')home();else if(screen==='q')question();else if(screen==='res')results();else if(screen==='groups')groups();else docs();
   progress()}
 function home(){
   setView('<div class="hero" style="display:flex;flex-direction:column"><img class="logo" src="'+LOGO+'" alt="לוגו ת״ש פלוס"><h1 style="margin-top:22px">ברוכים הבאים לסימולטור הת״ש<br>של קהילת זכויות נשואים בצה״ל</h1>'+
    '<p class="lead">הסימולטור החדשני לבדיקת הזכאויות וההטבות הצפויות לכם</p>'+
-   '<div class="row" style="margin-top:26px"><button class="btn" id="start">התחלת בדיקה</button><a class="btn sage" href="'+C.WHATSAPP_GROUP_URL+'" target="_blank" rel="noopener">להצטרפות לקבוצת הוואטסאפ של הקהילה</a><button class="btn ghost" id="more">מידע נוסף</button></div>'+
+   '<div class="row" style="margin-top:26px"><button class="btn" id="start">התחלת בדיקה</button><button class="btn sage" id="groupsBtn">להצטרפות לקבוצת הוואטסאפ של הקהילה</button><button class="btn ghost" id="more">מידע נוסף</button></div>'+
    '<div class="sharerow"><a class="sbtn" id="shwa" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.3M8.3 13.2l7.4 4.3"/></svg>שיתוף האפליקציה</a><button class="sbtn" id="shcp">העתקת קישור</button></div><p class="hint" id="shmsg" hidden style="text-align:center;direction:ltr"></p>'+
    '<p class="disc"><b>שימו לב:</b> סימולטור זה פותח באופן עצמאי, ואינו מהווה מוצר רשמי של צה״ל. המידע המוצג נועד לצורכי סימולציה והערכה כללית בלבד. אין לראות בתוצאות הסימולטור אישור זכאות רשמי, התחייבות כספית או ייעוץ מחייב. הזכאות הסופית נקבעת אך ורק על ידי גורמי הת״ש המוסמכים בצה״ל. השימוש בסימולטור הינו באחריות המשתמש בלבד.</p></div>');
   document.getElementById('start').onclick=function(){a={};hist=[];cur=nextId(null);screen='q';render()};
+  document.getElementById('groupsBtn').onclick=function(){screen='groups';render()};
   document.getElementById('more').onclick=function(){screen='docs';render()};
   var shTxt='בדקתי את הזכויות שלי במחשבון הזכויות של קהילת ״נשואים בצה״ל״. בדקו גם אתם: '+C.SHARE_URL;
   document.getElementById('shwa').href='https://wa.me/?text='+encodeURIComponent(shTxt);
@@ -265,6 +268,14 @@ function home(){
   document.getElementById('shcp').onclick=function(){
     function show(t){sm.hidden=false;sm.textContent=t}
     try{navigator.clipboard.writeText(C.SHARE_URL).then(function(){show('הקישור הועתק')},function(){show(C.SHARE_URL)})}catch(e){show(C.SHARE_URL)}}}
+var GROUPS=[
+ {n:'קבוצת זכויות נשואים בצה״ל 1',u:'https://chat.whatsapp.com/Epbf6Z8Ca9o2EeLnYzTHFE?s=cl&p=a&mlu=4&ilr=4'},
+ {n:'קבוצת זכויות נשואים בצה״ל 2',u:'https://chat.whatsapp.com/Epbf6Z8Ca9o2EeLnYzTHFE?s=cl&p=a&iam=2'},
+ {n:'קבוצת זכויות נשואים בצה״ל 3',u:'https://chat.whatsapp.com/Epbf6Z8Ca9o2EeLnYzTHFE?s=cl&p=a&mlu=4&ilr=4'},
+ {n:'זכויות חרדים בצה״ל',u:'https://chat.whatsapp.com/H4suyVLz2ML6Nm75hbP0zw?s=cl&p=a&iam=2'}];
+function groups(){
+  setView('<div class="eyebrow">הקהילה</div><h2>קבוצות הוואטסאפ של הקהילה</h2><p class="hint">בחרו קבוצה והצטרפו.</p><div class="stack" style="margin-top:18px">'+
+    GROUPS.map(function(g){return '<a class="btn sage" target="_blank" rel="noopener" href="'+g.u+'">'+g.n+'</a>'}).join('')+'</div>')}
 function question(){
   var q=Q.find(function(x){return x.id===cur}), h=typeof q.hint==='function'?q.hint(a):q.hint;
   var body='<div class="eyebrow">'+q.eyebrow+'</div><h2>'+(typeof q.title==='function'?q.title(a):q.title)+'</h2>'+(h?'<p class="hint">'+h+'</p>':'');
@@ -289,7 +300,7 @@ function answer(id,v){
   if(n){cur=n}else{screen='res'}
   render()}
 backBtn.onclick=function(){
-  if(screen==='docs'){screen='home';render();return}
+  if(screen==='docs'||screen==='groups'){screen='home';render();return}
   if(screen==='res'){cur=hist.pop();screen='q';render();return}
   if(hist.length){cur=hist.pop();screen='q'}else{screen='home'}
   render()};
@@ -316,14 +327,17 @@ function results(){
     has=true;
     cards+='<div class="note"><b>זכאי לכפל הטבות לזוג חיילי חובה</b></div>';
     var meT=mine>sp, spT=sp>mine, eq=mine===sp;
+    var dBank=a.bank==='yes'?Math.max(0,(+a.bankAmt||0)-C.BANK_LIMIT)*C.BANK_RATE/12:0;
+    var dTash=Math.max(C.MIN,Math.round(C.CAP*C.F_DUAL-Math.max(0,dBank-C.POINT)));
     cards+='<div class="split">'+
-      card('אתה',(meT?nf(C.CAP*C.F_DUAL):a.rent==='yes'?nf(C.RENT_FULL):'')+(meT||a.rent==='yes'?' ₪':''),meT?'רמ״פ גבוהה יותר: תשמ״ש מלא.':eq?'רמ״פ זהה: אחד מכם מקבל תשמ״ש והשני שכר דירה.':a.rent==='yes'?'שכר דירה בתקרה מלאה.':'ללא חוזה שכירות אין רכיב דיור.',true,meT?'wallet':'home')+
-      card('בת הזוג',(spT?nf(C.CAP*C.F_DUAL):a.rent==='yes'?nf(C.RENT_FULL):'')+(spT||a.rent==='yes'?' ₪':''),spT?'רמ״פ גבוהה יותר: תשמ״ש מלא.':eq?'רמ״פ זהה: אחד מכם מקבל תשמ״ש והשני שכר דירה.':a.rent==='yes'?'שכר דירה בתקרה מלאה.':'ללא חוזה שכירות אין רכיב דיור.',false,spT?'wallet':'home')+'</div>';
+      card('אתה',(meT?nf(dTash):a.rent==='yes'?nf(C.RENT_FULL):'')+(meT||a.rent==='yes'?' ₪':''),meT?'רמ״פ גבוהה יותר: תשמ״ש מלא.':eq?'רמ״פ זהה: אחד מכם מקבל תשמ״ש והשני שכר דירה.':a.rent==='yes'?'שכר דירה בתקרה מלאה.':'ללא חוזה שכירות אין רכיב דיור.',true,meT?'wallet':'home')+
+      card('בת הזוג',(spT?nf(dTash):a.rent==='yes'?nf(C.RENT_FULL):'')+(spT||a.rent==='yes'?' ₪':''),spT?'רמ״פ גבוהה יותר: תשמ״ש מלא.':eq?'רמ״פ זהה: אחד מכם מקבל תשמ״ש והשני שכר דירה.':a.rent==='yes'?'שכר דירה בתקרה מלאה.':'ללא חוזה שכירות אין רכיב דיור.',false,spT?'wallet':'home')+'</div>';
+    cards+='<div class="note">(אם בת הזוג בשירות לאומי ולא בשירות חובה: אין השוואת רמות פעילות וכפל הטבות בין בני הזוג, כי כפל תשמ״ש ושכר דירה חל רק על זוג חיילי חובה. במקרה זה אתה זכאי לתשמ״ש מלא בגובה '+nf(dTash)+' ₪, ושכר דירה לפי הכללים הרגילים.)</div>';
     r.tashForEnv=meT||spT||eq;
   }else{
     if(r.tash>0){
       has=true;
-      cards+=card('תשלומי משפחה (תשמ״ש)',nf(r.tash)+' ₪'+mo,'סיוע חודשי למשפחה, בכפוף להכנסות ולאישור הת״ש.',true,'wallet');
+      cards+=card('תשלומי משפחה (תשמ״ש)',nf(r.tash)+' ₪'+mo,(r.lone?'תשמ״ש בגובה מענק חייל בודד (למשרת בתפקיד לוחם: '+nf(C.LONE_FIGHTER)+' ₪), או הגבוה מביניהם לפי בדיקת הכנסות.':'סיוע חודשי למשפחה, בכפוף להכנסות ולאישור הת״ש.'),true,'wallet');
       if(r.rent){
         if(dbl){cards+='<div class="join">+<small>זכאי לכפל הטבות</small></div>'+card('סיוע בשכר דירה',nf(C.RENT_HALF)+' ₪'+mo,'50% מהתקרה, בנוסף לתשמ״ש.',true,'home')}
         else{cards+='<div class="join">או</div>'+card('סיוע בשכר דירה',nf(C.RENT_FULL)+' ₪'+mo,'השתתפות מלאה בשכר דירה.',true,'home')+'<div class="note">בהתאם לרמת הפעילות, יש לבחור בין קבלת רכיב התשמ״ש לבין השתתפות מלאה בשכר דירה, לפי הסכום הגבוה ביותר.'+'</div>'}
@@ -333,7 +347,7 @@ function results(){
       cards+=card('סיוע בשכר דירה',nf(C.RENT_FULL)+' ₪'+mo,'השתתפות מלאה בשכר דירה.',true,'home');
     }
     if(r.reason)cards+='<div class="note">'+r.reason+' בדקו זכאות לרכיבי דיור והטבות נלוות בלבד.</div>';
-    else if(r.tash===0)cards+='<div class="note">לפי ההכנסות שהוזנו לא נמצאה זכאות לתשמ״ש.</div>';
+    else if(false)cards+='<div class="note">לפי ההכנסות שהוזנו לא נמצאה זכאות לתשמ״ש.</div>';
   }
   var tashAny=r.dual?r.tashForEnv:r.tash>0, rentAny=r.dual?a.rent==='yes':r.rent&&true;
   var money=tashAny||rentAny;
@@ -341,12 +355,18 @@ function results(){
   var env=[];
   var vAuto=(r.kids&&rk>=2)||rk>=3;
   env.push([true,'תווי קנייה חודשיים (300 ₪)',vAuto?'זכאי אוטומטית בחוגר.':'אין זכאות אוטומטית. ניתן להגיש בקשה לשק״ד משרד הת״ש.',vAuto,'cart']);
-  if(tashAny&&!r.dual)env.push([true,'אחזקת דיור אוטומטית','<em>'+C.HOUSING_UPKEEP+' ₪</em> לחודש, מצורף לתשמ״ש.',true,'tools']);
-  if(money)env.push([true,'שי לחג (400-500 ₪)','בתו הזהב, פעמיים בשנה: ראש השנה ופסח.',true,'gift']);
+  if(!r.dual){
+    var own='<br>בעלי דירה על שמם ללא משכנתא ובלי השכרת דירה אחרת: <em>'+nf(C.HOUSING_UPKEEP_OWNER)+' ₪</em> (באישור בעלות).';
+    if(r.tash>0&&r.rent&&dbl)env.push([true,'אחזקת דיור','אין הא״ד נוסף כשמקבלים תשמ״ש יחד עם 50% שכר דירה.'+own,false,'tools']);
+    else if(r.tash>0&&r.rent)env.push([true,'אחזקת דיור','<em>'+C.HOUSING_UPKEEP+' ₪</em> בתוספת התשמ״ש, או <em>'+C.HOUSING_UPKEEP_RENT+' ₪</em> אם בוחרים בשכר דירה מלא.'+own,true,'tools']);
+    else if(r.rent)env.push([true,'אחזקת דיור','<em>'+C.HOUSING_UPKEEP_RENT+' ₪</em> לחודש, יחד עם שכר דירה מלא.'+own,true,'tools']);
+    else env.push([true,'אחזקת דיור','<em>'+C.HOUSING_UPKEEP+' ₪</em> לחודש.'+own,true,'tools']);
+  }
+  if(tashAny)env.push([true,'שי לחג (400-500 ₪)','בתו הזהב, פעמיים בשנה: ראש השנה ופסח.',true,'gift']);
   if(r.kids&&rk>=2)env.push([true,'החזר גני ילדים','<em>'+C.KINDER+' ₪</em> לחודש לכל ילד, מגיל 3 חודשים ועד גיל 5, בגן טרום חובה, למשך 11 חודשים, כנגד קבלות.',true,'child']);
   env.push([true,'יום סידורים חודשי (24 שעות)',dayOff?'זכאי.':'זכאי רק במשרתים ביחידה סגורה.',dayOff,'cal']);
   var envHtml='<ul class="chk">'+env.map(function(e){return '<li class="'+(e[3]?'':'off')+'">'+ico(e[4])+'<span><strong>'+e[1]+'</strong> '+e[2]+'</span></li>'}).join('')+'</ul>';
-  var fixed='<ul class="chk"><li>'+ico('building')+'<span><strong>פטור מארנונה (עד 70 מ״ר)</strong> הזכאות מותנית בכך שחשבון הארנונה רשום על שם החייל ומתייחס לדירה בה הוא מתגורר. מימוש מול הרשות המקומית.</span></li><li>'+ico('child')+'<span><strong>סיוע במעונות</strong> מימוש מול משרד העבודה.</span></li></ul>';
+  var fixed='<ul class="chk"><li>'+ico('building')+'<span><strong>פטור מארנונה (עד 70 מ״ר)</strong> אפשרי, ללא תלות בתשמ״ש. הזכאות מותנית בכך שחשבון הארנונה רשום על שם החייל ומתייחס לדירה בה הוא מתגורר. מימוש מול הרשות המקומית.</span></li><li>'+ico('child')+'<span><strong>סיוע במעונות</strong> אינו חלק מהסיוע של הת״ש. יש לבדוק זכאות מול משרד העבודה.</span></li></ul>';
   var carAlert=(r.car)?'<div class="alert">שים לב: בעלות על רכב מעל התקרה (46,138 ₪) או על שני רכבים ומעלה גוררת שלילה של הזכאות, אלא אם יאושר חריג רמ״ח פרט.</div>':'';
   setView('<div class="eyebrow">סיכום התוצאות</div><h2>'+(has?'הידד! אתה צפוי להיות זכאי לזכויות הבאות:':'התוצאות לפי התשובות שלך')+'</h2>'+carAlert+
     '<div class="stack">'+cards+'</div>'+
