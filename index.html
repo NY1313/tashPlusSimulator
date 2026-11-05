@@ -274,8 +274,8 @@ var GROUPS=[
  {n:'קבוצת זכויות נשואים בצה״ל 3',u:'https://chat.whatsapp.com/Epbf6Z8Ca9o2EeLnYzTHFE?s=cl&p=a&mlu=4&ilr=4'},
  {n:'זכויות חרדים בצה״ל',u:'https://chat.whatsapp.com/H4suyVLz2ML6Nm75hbP0zw?s=cl&p=a&iam=2'}];
 function groups(){
-  setView('<div class="eyebrow">הקהילה</div><h2>קבוצות הוואטסאפ של הקהילה</h2><p class="hint">בחרו קבוצה והצטרפו.</p><div class="stack" style="margin-top:18px">'+
-    GROUPS.map(function(g){return '<a class="btn sage" target="_blank" rel="noopener" href="'+g.u+'">'+g.n+'</a>'}).join('')+'</div>')}
+  setView('<div class="eyebrow">הקהילה</div><h2>קבוצות הוואטסאפ של הקהילה</h2><p class="hint">בחרו קבוצה והצטרפו.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px">'+
+    GROUPS.map(function(g,i){return '<a class="btn'+(i<3?' sage':'')+'" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;line-height:1.35;white-space:normal;width:auto;margin:0" target="_blank" rel="noopener" href="'+g.u+'">'+g.n+'</a>'}).join('')+'</div>')}
 function question(){
   var q=Q.find(function(x){return x.id===cur}), h=typeof q.hint==='function'?q.hint(a):q.hint;
   var body='<div class="eyebrow">'+q.eyebrow+'</div><h2>'+(typeof q.title==='function'?q.title(a):q.title)+'</h2>'+(h?'<p class="hint">'+h+'</p>':'');
